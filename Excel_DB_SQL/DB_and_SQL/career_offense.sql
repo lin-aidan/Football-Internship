@@ -62,11 +62,26 @@ order by td desc
 limit 15;
 
 -- Career Total Touchdowns
-select rush.name, sum(rush.td) as rush_td, sum(rec.td) as rec_td, (sum(rush.td) + sum(rec.td)) as total_td
-from Season_Rushing rush
-left join Season_Receiving rec
-    on rush.name = rec.name and rush.year = rec.year
-group by rush.name
-order by total_td desc
+select name, sum(td) as td
+from season_scoring
+group by name
+order by td desc
 limit 15;
+
+-- Career AP Yards
+select 
+    name,
+    sum(yds) AS total_yds
+from (
+    select name, year, net as yds from season_rushing
+    union all
+    select name, year, yds from season_receiving
+    union all
+    select name, year, yds from season_KR
+    union all
+    select name, year, yds from season_PR
+)
+group by name
+order by total_yds desc
+limit 12;
 
