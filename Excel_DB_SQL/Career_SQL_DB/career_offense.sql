@@ -3,21 +3,33 @@ select player, sum(yds) as yds
 from Season_Passing
 group by player
 order by yds desc
-limit 15;
+limit 10;
+
+-- Season Passing Yards
+select player, yds, year
+from Season_Passing
+order by yds desc
+limit 10;
 
 -- Career Passing Touchdowns
 select player, sum(td) as td
 from Season_Passing
 group by player
 order by td desc
-limit 15;
+limit 10;
+
+-- Season Passing Touchdowns
+select player, td, year
+from Season_Passing
+order by td desc
+limit 10;
 
 -- Career Completions
 select player, sum(comp) as comp
 from Season_Passing
 group by player
 order by comp desc
-limit 15;
+limit 10;
 
 -- Career Rushing Attempts
 select name, sum(att) as att
@@ -26,11 +38,23 @@ group by name
 order by att desc
 limit 15;
 
+-- Season Rushing Yards
+select name, net as yds, year
+from Season_Rushing
+order by yds desc
+limit 10;
+
 -- Career Rushing Yards
 select name, sum(net) as yds
 from Season_Rushing
 group by name
 order by yds desc
+limit 15;
+
+-- Season Rushing Touchdowns
+select name, td, year
+from Season_Rushing
+order by td desc
 limit 15;
 
 -- Career Rushing Touchdowns
@@ -39,6 +63,12 @@ from Season_Rushing
 group by name
 order by td desc
 limit 15;
+
+-- Season Receptions
+select name, no as rec, year
+from Season_Receiving
+order by rec desc
+limit 10;
 
 -- Career Receptions
 select name, sum(no) as rec

@@ -1,5 +1,6 @@
 select *
-from game_results;
+from game_results
+order by date;
 
 select
     strftime('%Y', date) as season,
