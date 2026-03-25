@@ -7,12 +7,11 @@ import time
 years = list(range(2012, 2026))
 base_url = "https://hurstathletics.com"
 
-# -------------------------------
-# HELPERS
-# -------------------------------
+
 def is_mu(name):
     name = name.upper()
     return any(k in name for k in ["MU", "MER", "HURST", "MERCYHURST", "LAKERS", "MCY", "MHU", "MCU"])
+
 
 def safe_int(x):
     try:
@@ -20,9 +19,7 @@ def safe_int(x):
     except:
         return 0
 
-# -------------------------------
-# STEP 1: GET GAME URLS
-# -------------------------------
+
 def extract_game_data(schedule_url, year):
     rows = []
     seen = set()
@@ -53,9 +50,7 @@ def extract_game_data(schedule_url, year):
     
     return rows
 
-# -------------------------------
-# STEP 2: BOX SCORE STATS
-# -------------------------------
+
 def extract_boxscore_stats(url):
     response = requests.get(url)
     
@@ -65,9 +60,6 @@ def extract_boxscore_stats(url):
 
     soup = BeautifulSoup(response.content, "html.parser")
 
-    # -------------------------------
-    # DETERMINE MU COLUMN USING HEADER
-    # -------------------------------
     header_home = soup.find("th", {"id": "home-team"})
     header_away = soup.find("th", {"id": "away-team"})
 
@@ -88,9 +80,7 @@ def extract_boxscore_stats(url):
         print(f"Mercyhurst not found in headers: {url}")
         return None
 
-    # -------------------------------
-    # MAIN TEAM STATS TABLE
-    # -------------------------------
+
     table = soup.find("table", {"class": "sidearm-table overall-stats highlight-hover full"})
     
     if not table:
@@ -103,9 +93,7 @@ def extract_boxscore_stats(url):
         print(f"Incomplete game: {url}")
         return None
 
-    # -------------------------------
-    # EXTRACTION
-    # -------------------------------
+
     mu_total_first_downs = rows[1].find_all("td")[mu_col].text.strip()
     opp_total_first_downs = rows[1].find_all("td")[opp_col].text.strip()
 
@@ -291,9 +279,7 @@ def extract_boxscore_stats(url):
         "opp_int_return_tds": opp_int_return_tds
     }
 
-# -------------------------------
-# STEP 3: RUN PIPELINE
-# -------------------------------
+
 game_rows = []
 
 for year in years:
@@ -312,9 +298,7 @@ for year, opponent, link in game_rows:
     
     time.sleep(1)
 
-# -------------------------------
-# STEP 4: SAVE CSV
-# -------------------------------
+
 df = pd.DataFrame(all_games)
 
 output_path = Path('full_game_stats.csv')

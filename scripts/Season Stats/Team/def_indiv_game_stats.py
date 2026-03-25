@@ -7,9 +7,6 @@ import time
 years = list(range(2012, 2026))
 base_url = "https://hurstathletics.com"
 
-# -------------------------------
-# HELPERS
-# -------------------------------
 def clean_stat(val):
     val = val.strip()
     return "0" if val in ["-", "", None] else val
@@ -54,9 +51,7 @@ def get_mu_def_table(soup, url):
 
     return table
 
-# -------------------------------
-# STEP 1: GET GAME URLS
-# -------------------------------
+
 def extract_game_data(schedule_url, year):
     rows = []
     seen = set()
@@ -87,17 +82,12 @@ def extract_game_data(schedule_url, year):
     
     return rows
 
-# -------------------------------
-# STEP 2: DEFENSIVE STATS
-# -------------------------------
+
 def get_indiv_def_stats(soup, url):
     sections = soup.find_all("section")
 
     target_section = None
 
-    # -------------------------------
-    # FIND MERCYHURST DEFENSIVE SECTION
-    # -------------------------------
     for section in sections:
         aria = section.get("aria-label", "").upper()
 
@@ -122,12 +112,10 @@ def get_indiv_def_stats(soup, url):
     rows = tbody.find_all("tr")
     data = []
 
-    # -------------------------------
-    # CLEANING HELPERS
-    # -------------------------------
     def clean(val):
         val = val.strip()
         return "0" if val in ["-", "", None] else val
+
 
     def split_stat(val):
         val = val.strip().replace("-", "0")
@@ -137,9 +125,7 @@ def get_indiv_def_stats(soup, url):
                 return clean(parts[0]), clean(parts[1])
         return clean(val), "0"
 
-    # -------------------------------
-    # EXTRACT ROWS (ALL MU PLAYERS)
-    # -------------------------------
+
     for row in rows:
         cells = row.find_all("td")
         if len(cells) < 16:
@@ -169,9 +155,7 @@ def get_indiv_def_stats(soup, url):
 
     return data
 
-# -------------------------------
-# STEP 3: RUN PIPELINE
-# -------------------------------
+
 game_rows = []
 
 for year in years:

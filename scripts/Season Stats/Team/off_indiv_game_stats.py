@@ -7,9 +7,7 @@ import time
 years = list(range(2012, 2026))
 base_url = "https://hurstathletics.com"
 
-# -------------------------------
-# HELPERS
-# -------------------------------
+
 def is_mu_caption(text):
     text = text.upper()
     team = text.split("-")[0].strip()  # isolate team code
@@ -29,9 +27,7 @@ def get_mu_table(section):
     
     return None
 
-# -------------------------------
-# STEP 1: GET GAME URLS
-# -------------------------------
+
 def extract_game_data(schedule_url, year):
     rows = []
     seen = set()
@@ -62,9 +58,7 @@ def extract_game_data(schedule_url, year):
     
     return rows
 
-# -------------------------------
-# STEP 2: INDIVIDUAL STATS
-# -------------------------------
+
 def get_indiv_passing_stats(soup):
     section = soup.find("section", {"id": "individual-passing"})
     table = get_mu_table(section)
@@ -145,9 +139,7 @@ def get_indiv_receiving_stats(soup):
 
     return data
 
-# -------------------------------
-# STEP 3: RUN PIPELINE
-# -------------------------------
+
 game_rows = []
 
 for year in years:
@@ -188,9 +180,7 @@ for year, opponent, link in game_rows:
 
     time.sleep(1)
 
-# -------------------------------
-# STEP 4: SAVE CSV
-# -------------------------------
+
 pass_df = pd.DataFrame(passing_game_rows)
 rush_df = pd.DataFrame(rushing_game_rows)
 recv_df = pd.DataFrame(receiving_game_rows)
