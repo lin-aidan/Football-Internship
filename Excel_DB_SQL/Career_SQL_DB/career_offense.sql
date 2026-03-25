@@ -77,6 +77,12 @@ group by name
 order by rec desc
 limit 15;
 
+-- Season Receiving Yards
+select name, yds, year
+from Season_Receiving
+order by yds desc
+limit 10;
+
 -- Career Receiving Yards
 select name, sum(yds) as yds
 from Season_Receiving
@@ -84,10 +90,22 @@ group by name
 order by yds desc
 limit 15;
 
+-- Season Receiving Touchdowns
+select name, td, year
+from Season_Receiving
+order by td desc
+limit 15;
+
 -- Career Receiving Touchdowns
 select name, sum(td) as td
 from Season_Receiving
 group by name
+order by td desc
+limit 15;
+
+-- Season Total Touchdowns
+select name, td, year
+from season_scoring
 order by td desc
 limit 15;
 
@@ -98,20 +116,39 @@ group by name
 order by td desc
 limit 15;
 
--- Career AP Yards
+-- Season AP Yards
 select 
     name,
-    sum(yds) AS total_yds
-from (
-    select name, year, net as yds from season_rushing
-    union all
-    select name, year, yds from season_receiving
-    union all
-    select name, year, yds from season_KR
-    union all
-    select name, year, yds from season_PR
-)
-group by name
-order by total_yds desc
-limit 12;
+        sum(yds) AS total_yds,
+            year
+            from (
+                select name, year, net as yds from season_rushing
+                    union all
+                        select name, year, yds from season_receiving
+                            union all
+                                select name, year, yds from season_KR
+                                    union all
+                                        select name, year, yds from season_PR
+                                        )
+                                        group by name, year
+                                        order by total_yds desc
+                                        limit 12;
 
+                                        -- Career AP Yards
+                                        select 
+                                            name,
+                                                sum(yds) AS total_yds
+                                                from (
+                                                    select name, year, net as yds from season_rushing
+                                                        union all
+                                                            select name, year, yds from season_receiving
+                                                                union all
+                                                                    select name, year, yds from season_KR
+                                                                        union all
+                                                                            select name, year, yds from season_PR
+                                                                            )
+                                                                            group by name
+                                                                            order by total_yds desc
+                                                                            limit 12;
+
+                                                                            

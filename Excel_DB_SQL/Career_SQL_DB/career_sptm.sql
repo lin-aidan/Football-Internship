@@ -12,12 +12,24 @@ group by name
 order by yds desc
 limit 10;
 
+-- Season XP Kicks
+select name, kick, year
+from Season_Scoring
+where kick is not null and kick like '%-%'
+order by kick desc;
+
 -- Career XP Kicks
 select name, sum(cast(substr(kick, 1, instr(kick, '-') - 1) as integer)) as xpm
 from Season_Scoring
 where kick is not null and kick like '%-%'
 group by name
 order by xpm desc
+limit 10;
+
+-- Season FGs Made
+select name, FGM, year
+from Season_FG
+order by FGM desc
 limit 10;
 
 -- Career FGs Made
@@ -48,6 +60,12 @@ group by name
 order by punt_returns desc
 limit 10;
 
+-- Season Punt Return Yards
+select name, yds, year
+from Season_PR
+order by yds desc
+limit 10;
+
 -- Career Punt Return Yards
 select name, sum(yds) as pr_yds
 from Season_PR
@@ -67,6 +85,12 @@ select name, sum(no) as kr
 from Season_KR
 group by name
 order by kr desc
+limit 10;
+
+-- Season Kick Return Yards
+select name, yds, year
+from Season_KR
+order by yds desc
 limit 10;
 
 -- Career Kick Return Yards

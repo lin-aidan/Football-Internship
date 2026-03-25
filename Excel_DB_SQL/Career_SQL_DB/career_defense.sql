@@ -4,12 +4,23 @@ select name, tot, year
 from Season_Defense
 order by name;
 */
+-- Season Tackles
+select name, tot as tackles, year
+from Season_Defense
+order by tackles desc
+limit 15;
 
 -- Career Tackles
 select name, sum(tot) as tackles
 from Season_Defense
 group by name
 order by tackles desc
+limit 15;
+
+-- Season TFLs
+select name, tfl, year
+from Season_Defense
+order by tfl desc
 limit 15;
 
 -- Career TFLs
@@ -19,12 +30,25 @@ group by name
 order by tfl desc
 limit 15;
 
+-- Season Sacks
+select name, sacks, year
+from Season_Defense
+order by sacks desc
+limit 10;
+
 -- Career Sacks
 select name, sum(sacks) as sacks
 from Season_Defense
 group by name
 order by sacks desc
 limit 15;
+
+-- Season Interceptions
+select name, year, int
+from Season_Defense
+where name = 'Kimball, Colin'
+order by int desc;
+--limit 20;
 
 -- Career Interceptions
 select name, sum(int) as ints
